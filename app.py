@@ -40,16 +40,18 @@ if st.button("Predict Possible Colleges"):
         row_data = row.copy()
         row_data['Student_Marks'] = marks
 
-        # encode college name into numeric (important fix!)
-        row_data['College'] = encoders['College'].transform([row_data['College']])[0]
+        # Encode ALL categorical columns as done during model training
+        for col in ['Branch', 'Category', 'Gender', 'Region', 'Technical/Non Technical', 'College']:
+            row_data[col] = encoders[col].transform([row_data[col]])[0]
 
-        # prepare input and convert to float
-        input_data = row_data[X_columns].astype(float)
+        # Reindex according to training column order
+        input_data = row_data.reindex(X_columns).astype(float)
 
+        # Predict
         pred = model.predict([input_data])[0]
 
         if pred == 1:
-            # reverse-transform back from number to college name
+            # decode college name back
             college_name = encoders['College'].inverse_transform([int(row_data['College'])])[0]
             possible_colleges.append(college_name)
 
@@ -59,3 +61,5 @@ if st.button("Predict Possible Colleges"):
             st.write(f"{i}. {c}")
     else:
         st.error("❌ No colleges found!")
+
+
