@@ -516,3 +516,4 @@ if st.button("Predict Possible Colleges"):
         st.markdown(result_df.to_html(index=False, classes="result-table"), unsafe_allow_html=True)
     else:
         st.error("❌ No colleges found matching your criteria")
+
