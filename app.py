@@ -517,3 +517,4 @@ if st.button("Predict Possible Colleges"):
     else:
         st.error("❌ No colleges found matching your criteria")
 
+
